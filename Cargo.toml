@@ -7,4 +7,5 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.87"
+oneshot = "0.1.8"
 rand = "0.8.5"

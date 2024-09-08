@@ -1,6 +1,7 @@
 use std::ops::{Add, AddAssign, Deref, Mul};
 
-use anyhow::{anyhow, Result};
+use anyhow::anyhow;
+use anyhow::Result;
 
 pub struct Vector<T> {
     data: Vec<T>,
