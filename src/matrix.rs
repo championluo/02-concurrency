@@ -5,6 +5,8 @@ use std::{
 
 use anyhow::{anyhow, Result};
 
+use crate::{dot_product, Vector};
+
 //先声明一个矩阵结构
 // 3*2 的矩阵 [[1,2], [3,4], [5,6]] => 也可以定义成 [1,2,3,4,5,6], 然后在代码中去分行列
 //rust中,后面的形式要比前面的形式要好, 因为 Vec(Vec,Vec,Vec) 这种数据结构访问效率没有 直接平铺然后通过index进行逻辑区分的高
@@ -54,11 +56,25 @@ where
     //先遍历a的每一行, 再遍历b的每一列, 然后计算对应位置的乘积, 然后加到结果矩阵的对应位置上
     for i in 0..a.row {
         for j in 0..b.col {
-            for k in 0..a.col {
-                // 这里的+= 实际上是 泛型T进行  += 操作, 需要定义明确的trait来实现这样的功能, 需要在上面的 where 中加入 AddAssign trait
-                // 同时,要对data里面的数据结构Vec<T>进行访问, T同样需要满足借用规则, 这里对T实现copy trait, 在借用时如果不能借用,直接复制
-                data[i * b.col + j] += a.data[i * a.col + k] * b.data[k * b.col + j];
-            }
+            // 这一步用 dot_product 替代
+            // for k in 0..a.col {
+            //     // 这里的+= 实际上是 泛型T进行  += 操作, 需要定义明确的trait来实现这样的功能, 需要在上面的 where 中加入 AddAssign trait
+            //     // 同时,要对data里面的数据结构Vec<T>进行访问, T同样需要满足借用规则, 这里对T实现copy trait, 在借用时如果不能借用,直接复制
+            //     data[i * b.col + j] += a.data[i * a.col + k] * b.data[k * b.col + j];
+            // }
+
+            //取a的行值, 因为这里是 a矩阵的切片类型
+            //切片类型本身不是一个 Vec<T>，而是一个指向 Vec<T> 内部元素的引用。
+            //所以这里需要进行取引用符号
+            let row = Vector::new(&a.data[a.col * i..a.col * (i + 1)]);
+            //copied() 表示将引用里面的值转出值, 而不是引用本身
+            let col_data = b.data[j..]
+                .iter()
+                .step_by(b.col)
+                .copied()
+                .collect::<Vec<T>>();
+            let col = Vector::new(col_data);
+            data[i * b.col + j] += dot_product(row, col)?;
         }
     }
 
