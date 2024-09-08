@@ -1,0 +1,138 @@
+{
+    // 使用 IntelliSense 了解相关属性。
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'concurrency'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=concurrency"
+                ],
+                "filter": {
+                    "name": "concurrency",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'concurrency'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=concurrency",
+                    "--package=concurrency"
+                ],
+                "filter": {
+                    "name": "concurrency",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'concurrency'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=concurrency",
+                    "--package=concurrency"
+                ],
+                "filter": {
+                    "name": "concurrency",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'matrix'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=matrix",
+                    "--package=concurrency"
+                ],
+                "filter": {
+                    "name": "matrix",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'matrix'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=matrix",
+                    "--package=concurrency"
+                ],
+                "filter": {
+                    "name": "matrix",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'thread1'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=thread1",
+                    "--package=concurrency"
+                ],
+                "filter": {
+                    "name": "thread1",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in example 'thread1'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--example=thread1",
+                    "--package=concurrency"
+                ],
+                "filter": {
+                    "name": "thread1",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
