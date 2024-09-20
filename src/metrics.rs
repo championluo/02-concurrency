@@ -1,3 +1,4 @@
+use std::fmt;
 use std::{
     collections::HashMap,
     sync::{Arc, RwLock},
@@ -40,5 +41,16 @@ impl Metrics {
             .read()
             .map_err(|e| anyhow!(e.to_string()))?
             .clone())
+    }
+}
+
+impl fmt::Display for Metrics {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
+        let data = self.data.read().map_err(|_| fmt::Error {})?;
+
+        for (key, value) in data.iter() {
+            writeln!(f, "{}: {}", key, value)?;
+        }
+        Ok(())
     }
 }

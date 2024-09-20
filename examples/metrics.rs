@@ -23,7 +23,8 @@ fn main() -> Result<()> {
     loop {
         thread::sleep(Duration::from_secs(3));
         //print! 宏不会自动换行，这里一定要换行,否则不会立即打印,直到一行溢出
-        println!("{:?}", metrics.snapshot());
+        //这里直接改成输出metrics, 但是这里还没有实现fmt::Display, 所以要先实现Display
+        println!("{}", metrics);
     }
 }
 
