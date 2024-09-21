@@ -9,7 +9,8 @@ const M: usize = 4;
 fn main() -> Result<()> {
     let metrics = Metrics::new();
 
-    println!("{:?}", metrics.snapshot());
+    //使用 DashMap 后这里无需再进行 snapshot, 直接打印数据
+    println!("{}", metrics);
 
     // 将上面的代码改成多线程处理
     for _ in 0..N {
