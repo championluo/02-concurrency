@@ -1,13 +1,24 @@
 use anyhow::Result;
-use concurrency::Metrics;
+use concurrency::AmapMetrics;
 use rand::Rng;
 use std::{thread, time::Duration};
 
 const N: usize = 2;
 const M: usize = 4;
 
+//执行命令行: cargo run --example ametrics
 fn main() -> Result<()> {
-    let metrics = Metrics::new();
+    //这里要先进行key的初始化, 注意是 数组的应用 要加个 &
+    let metrics = AmapMetrics::new(&[
+        "request.page.1",
+        "request.page.2",
+        "request.page.3",
+        "request.page.4",
+        "call.thread.worker.0",
+        "call.thread.worker.1",
+        "call.thread.worker.2",
+        "call.thread.worker.3",
+    ]);
 
     //使用 DashMap 后这里无需再进行 snapshot, 直接打印数据
     println!("{}", metrics);
@@ -25,11 +36,11 @@ fn main() -> Result<()> {
         thread::sleep(Duration::from_secs(3));
         //print! 宏不会自动换行，这里一定要换行,否则不会立即打印,直到一行溢出
         //这里直接改成输出metrics, 但是这里还没有实现fmt::Display, 所以要先实现Display
-        println!("{}", metrics);
+        println!("{}", metrics.clone());
     }
 }
 
-fn task_worker(idx: usize, metrics: Metrics) -> Result<()> {
+fn task_worker(idx: usize, metrics: AmapMetrics) -> Result<()> {
     thread::spawn(move || {
         loop {
             let mut rng = rand::thread_rng();
@@ -42,7 +53,7 @@ fn task_worker(idx: usize, metrics: Metrics) -> Result<()> {
     Ok(())
 }
 
-fn request_worker(metrics: Metrics) -> Result<()> {
+fn request_worker(metrics: AmapMetrics) -> Result<()> {
     //如果使用 move || loop {}  这种简写格式的话， 返回类型是元组，不是Result类型，所以loop中的？号会报错，返回格式不一样
     thread::spawn(move || {
         loop {

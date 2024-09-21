@@ -6,22 +6,22 @@ use dashmap::DashMap;
 
 // metrics 的 data structure
 #[derive(Debug, Clone)]
-pub struct Metrics {
+pub struct CmapMetrics {
     //key 和 value 的类型都可以自定义\
     //这里如果类型写死的话, 就不需要再结构体签名上加泛型<>符号了
     data: Arc<DashMap<String, i64>>,
 }
 
-impl Default for Metrics {
+impl Default for CmapMetrics {
     fn default() -> Self {
         Self::new()
     }
 }
 
 // 基本功能  inc/dec/snapshot
-impl Metrics {
+impl CmapMetrics {
     pub fn new() -> Self {
-        Metrics {
+        CmapMetrics {
             data: Arc::new(DashMap::new()),
         }
     }
@@ -42,7 +42,7 @@ impl Metrics {
     // }
 }
 
-impl fmt::Display for Metrics {
+impl fmt::Display for CmapMetrics {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> std::fmt::Result {
         for entry in self.data.iter() {
             writeln!(f, "{}: {}", entry.key(), entry.value())?;
